@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -66,6 +67,7 @@ fun App() {
 fun MainScreen(modifier: Modifier = Modifier) {
     var  input1 by remember { mutableStateOf("") }
     var  input2 by remember { mutableStateOf("") }
+    var result by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier.fillMaxWidth()
@@ -91,6 +93,22 @@ fun MainScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.colors(unfocusedContainerColor =  Color.Transparent, focusedContainerColor = Color.Transparent),
             label = {Text("Number 2")}
+        )
+
+        Button(
+            onClick = {
+                val num1 = input1.toIntOrNull() ?: 0
+                val num2 = input2.toIntOrNull() ?: 0
+                result = (num1 + num2).toString()
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Calculate")
+        }
+
+        Text(
+            text = result,
+            modifier = Modifier.fillMaxWidth()
         )
 
     }
