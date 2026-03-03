@@ -25,7 +25,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.homework.ui.theme.HomeworkTheme
+
 
 class MainActivity : ComponentActivity() {
 
@@ -43,30 +48,41 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class) //Experimentielle API -> might change
 @Composable
 fun App() {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TopAppBar(
-                 title = { Text("Homework 1") },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Magenta,
-                    titleContentColor = Color.Black
-                )
-            )
-        }
-    ) { innerPadding ->
-        MainScreen(
-            modifier = Modifier.fillMaxSize()
-                .padding(innerPadding)
+    val navController = rememberNavController()
 
-        )
+    NavHost(navController = navController, startDestination = "main") {
+        composable("main") {
+            Scaffold(
+                modifier = Modifier.fillMaxSize(),
+                topBar = {
+                    TopAppBar(
+                        title = { Text("Homework 1") },
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = Color.Magenta,
+                            titleContentColor = Color.Black
+                        )
+                    )
+                }
+            ) { innerPadding ->
+                MainScreen(
+                    modifier = Modifier.fillMaxSize()
+                        .padding(innerPadding),
+                    navController = navController
+                )
+            }
+        }
+        composable("result/{value}") {
+            backStackEntry -> val value = backStackEntry.arguments?.getString("value") ?: "0"
+            ResultScreen(value = value)
+        }
+
     }
 }
 
 //test
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
+fun MainScreen(modifier: Modifier = Modifier, navController: NavController) {
     var  input1 by remember { mutableStateOf("") }
     var  input2 by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
@@ -116,7 +132,9 @@ fun MainScreen(modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
-            //if clicked summed -> new screen with value
+                val num1 = input1.toIntOrNull() ?: 0
+                val num2 = input2.toIntOrNull() ?: 0
+                navController.navigate("result/${num1 + num2}")
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -139,7 +157,12 @@ fun MainScreen(modifier: Modifier = Modifier) {
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ResultScreen(value: String){
 
+    Text("Ergebnis: $value")
+}
 
 @Preview(showBackground = true)
 @Composable
