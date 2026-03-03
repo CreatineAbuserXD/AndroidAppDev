@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Homework 1</string>
+    <string name="author_name">Philip Stipkovits</string>
+    <string name="input1_label">Number 1</string>
+    <string name="input2_label">Number 2</string>
+    <string name="btn_calculate">Calculate</string>
+    <string name="btn_navigate">Navigate</string>
 </resources>

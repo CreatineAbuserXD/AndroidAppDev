@@ -24,11 +24,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.androidilv.R
 import com.example.homework.ui.theme.HomeworkTheme
 
 
@@ -56,7 +58,7 @@ fun App() {
                 modifier = Modifier.fillMaxSize(),
                 topBar = {
                     TopAppBar(
-                        title = { Text("Homework 1") },
+                        title = { Text(stringResource(R.string.app_name)) },
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = Color.Magenta,
                             titleContentColor = Color.Black
@@ -83,16 +85,16 @@ fun App() {
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier, navController: NavController) {
-    var  input1 by remember { mutableStateOf("") }
-    var  input2 by remember { mutableStateOf("") }
-    var result by remember { mutableStateOf("") }
+    var  input1 by remember { mutableStateOf("0") }
+    var  input2 by remember { mutableStateOf("0") }
+    var result by remember { mutableStateOf("0") }
     var sliderValue by remember { mutableStateOf(0f) } //f = float weil Slider braucht float
 
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
         Text(
-            text = "Philip Stipkovits",
+            text = stringResource(R.string.author_name),
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -102,7 +104,7 @@ fun MainScreen(modifier: Modifier = Modifier, navController: NavController) {
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.colors(unfocusedContainerColor = Color.Transparent, focusedContainerColor = Color.Transparent),
-            label = { Text("Number 1")}
+            label = { Text(stringResource(R.string.input1_label))}
         )
 
         TextField(
@@ -111,7 +113,7 @@ fun MainScreen(modifier: Modifier = Modifier, navController: NavController) {
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.colors(unfocusedContainerColor =  Color.Transparent, focusedContainerColor = Color.Transparent),
-            label = {Text("Number 2")}
+            label = {Text(stringResource(R.string.input2_label))}
         )
 
         Button(
@@ -122,7 +124,7 @@ fun MainScreen(modifier: Modifier = Modifier, navController: NavController) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Calculate")
+            Text(stringResource(R.string.btn_calculate))
         }
 
         Text(
@@ -138,7 +140,7 @@ fun MainScreen(modifier: Modifier = Modifier, navController: NavController) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Navigate")
+            Text(stringResource(R.string.btn_navigate))
         }
 
         Slider(
@@ -160,8 +162,28 @@ fun MainScreen(modifier: Modifier = Modifier, navController: NavController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResultScreen(value: String){
-
-    Text("Ergebnis: $value")
+    Scaffold( //Scaffold könnte man auslagern da same pattern, und clean Arch, aber für die Übung is ok
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.app_name)) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Magenta,
+                    titleContentColor = Color.Black
+                )
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            Text(
+                text = value,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
 }
 
 @Preview(showBackground = true)
