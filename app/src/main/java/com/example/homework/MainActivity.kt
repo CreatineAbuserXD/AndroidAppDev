@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -69,6 +70,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
     var  input1 by remember { mutableStateOf("") }
     var  input2 by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
+    var sliderValue by remember { mutableStateOf(0f) } //f = float weil Slider braucht float
 
     Column(
         modifier = modifier.fillMaxWidth()
@@ -109,6 +111,27 @@ fun MainScreen(modifier: Modifier = Modifier) {
 
         Text(
             text = result,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Button(
+            onClick = {
+            //if clicked summed -> new screen with value
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Navigate")
+        }
+
+        Slider(
+            value = sliderValue,
+            onValueChange =  { sliderValue = it},    //sofort updaten beim bewegen
+            valueRange =  0f..100f,
+            modifier = Modifier.fillMaxWidth()
+            )
+
+        Text(
+            text = sliderValue.toInt().toString(),
             modifier = Modifier.fillMaxWidth()
         )
 
