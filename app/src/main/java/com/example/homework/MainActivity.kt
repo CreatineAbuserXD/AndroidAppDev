@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
@@ -32,6 +33,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.androidilv.R
 import com.example.homework.ui.theme.HomeworkTheme
+
 
 
 class MainActivity : ComponentActivity() {
@@ -75,7 +77,7 @@ fun App() {
         }
         composable("result/{value}") {
             backStackEntry -> val value = backStackEntry.arguments?.getString("value") ?: "0"
-            ResultScreen(value = value)
+            ResultScreen(value = value, navController = navController)
         }
 
     }
@@ -161,11 +163,17 @@ fun MainScreen(modifier: Modifier = Modifier, navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ResultScreen(value: String){
+fun ResultScreen(value: String, navController: NavController){
     Scaffold( //Scaffold könnte man auslagern da same pattern, und clean Arch, aber für die Übung is ok
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.app_name)) },
+
+      /// DIESER PART WAR nicht explizit gefragt aber er ist Logisch
+                navigationIcon = { IconButton({navController.popBackStack() }){
+                  Text("<-")
+                } },
+
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Magenta,
                     titleContentColor = Color.Black
