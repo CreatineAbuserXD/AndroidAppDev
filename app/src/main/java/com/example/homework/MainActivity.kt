@@ -191,3 +191,21 @@ fun ResultScreen(value: String){
 fun AppPreview(){
     HomeworkTheme() { App()}
 }
+
+
+/*
+  App() startet
+→ NavHost sagt "beginne bei main"
+→ composable("main") wird ausgeführt = Scaffold + MainScreen wird angezeigt
+→ navController wird an MainScreen weitergegeben damit er ihn "benutzen" kann
+
+→ User klickt Navigate Button
+→ navController.navigate("result/16")
+→ NavHost sagt "okay geh zu composable("result/{value}")"
+→ composable("result/{value}") wird ausgeführt, value = "16"
+→ ResultScreen wird angezeigt
+
+→ User klickt ←
+→ popBackStack()
+→ zurück zu composable("main")
+     */
